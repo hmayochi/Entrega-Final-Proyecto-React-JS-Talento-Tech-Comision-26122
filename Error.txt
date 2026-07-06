@@ -1,0 +1,199 @@
+Hola
+Buenas tardes
+
+Sabes que estoy haciendo un curso de React. 
+Me podes ayudar con algo que no me está funcionando del todo bien.
+
+Resulta que cuando mi profesora nos dio la clase en el ejemplo que nos dio ella
+cuando ella ejecutaba "http://localhost:5173/admin" le mostraba el "dashboard" con las diferenctes opciones.
+Yo hice exactamante lo mismo y me ejecuta el componente login (que aun no lo desarrollé).
+Se entendio el problema?
+Me podes ayudar a resolverlo por favor?
+
+Te voy pasando los diferentes componentes que creo 	que intervienen en el problema que son Main.jsx, App.jsx, ProtectedRoute.jsx y Dashboard.jsx:
+
+-- componente "Main.jsx"
+-- Inicio
+
+import { StrictMode } from "react";
+import { createRoot } from "react-dom/client"
+import './index.css';
+import App from './App.jsx';
+import { BrowserRouter } from "react-router-dom"; // 👈 IMPORTANTE
+import { CartProvider } from "./context/CartContext"; // Importamos el CartProvider para envolver toda la aplicación y proporcionar el contexto del carrito de compras a todos los componentes
+import { AuthProvider } from "./context/AuthContext.jsx"; // Importamos el AuthProvider para envolver toda la aplicación y proporcionar el contexto de autenticación a todos los componentes  
+
+
+
+
+createRoot(document.getElementById('root')).render(
+  <StrictMode>
+    <BrowserRouter>   {/*  */}
+    <AuthProvider>  {/* Agregamos el AuthProvider para envolver toda la aplicación y proporcionar el contexto de autenticación a todos los componentes */}
+      <CartProvider >  {/* Agregamos el CartProvider para envolver toda la aplicación y proporcionar el contexto del carrito de compras a todos los componentes */}
+      <App />
+      </CartProvider>  {/* Agregamos el CartProvider para envolver toda la aplicación y proporcionar el contexto del carrito de compras a todos los componentes */}
+    </AuthProvider>  {/* Agregamos el AuthProvider para envolver toda la aplicación y proporcionar el contexto de autenticación a todos los componentes */}
+    </BrowserRouter>
+  </StrictMode>,
+)
+
+
+
+-- Fin
+
+
+-- componente "App.jsx"
+-- Inicio
+
+// import { useState } from 'react'
+// import reactLogo from './assets/react.svg'
+// import viteLogo from './assets/vite.svg'
+// import heroImg from './assets/hero.png'
+import { Navigate, Route, Routes } from "react-router-dom";
+import "./App.css";
+//import { count } from './components/Count/Count';
+// import { Footer } from "./components/Footer/Footer";
+// import { Header } from "./components/Header/Header";
+import { ItemListContainer } from "./components/ItemListContainer/ItemListContainer";
+import { ItemDetailContainer } from "./components/ItemDetailContainer/ItemDetailContainer";
+import { CartView } from "./components/Cart/CartView";
+import { ProductFormContainer } from "./components/adminComponents/ProductFormContainer";
+import { ProductSuccess } from "./components/adminComponents/ProductSuccess"; 
+import { PublicLayout } from "./layouts/PublicLayout";
+import { AdminLayout } from "./layouts/AdminLayout";
+import { ProtectedRoute } from "./components/ProtectedRoute/ProtectedRoute";
+import { Dashboard } from "./components/adminComponents/Dashboard/Dashboard";
+
+
+function App() {
+  // const [count, setCount] = useState(0)
+
+  return (
+    <>
+    {/* <Header />
+    <main> */}
+      <Routes>
+
+        // Public routes
+                <Route element={<PublicLayout />}>
+          <Route path="/" element={<ItemListContainer />} />
+          {/* Ruta opcional para filtrar categorias */}
+          <Route path="/category/:category" element={<ItemListContainer />} />
+          <Route path="/product/:id" element={<ItemDetailContainer />} />
+          <Route path="/carrito" element={<CartView />} />
+        </Route>
+
+        // Login route
+        {/* <Route path="/admin/login" element={<Login />} /> */}
+        <Route path="/admin/login" element={<h2>LOGIN</h2>} />
+
+        // Admin routes
+        <Route path="/admin" element={
+          
+          <ProtectedRoute>
+            <AdminLayout />
+          </ProtectedRoute>
+          }> 
+
+
+
+          <Route index element={<Navigate to="dashboard" />} />
+
+          <Route path="dashboard" element={<Dashboard />} />
+
+        <Route path="products/new" element={<ProductFormContainer />} />
+        <Route path="products/success/:id" element={<ProductSuccess />} />
+        </Route>
+
+      </Routes>
+    {/* </main>
+    <Footer /> */}
+
+    </>
+  )
+}
+
+export default App
+
+
+
+-- Fin
+
+
+
+-- componente "ProtectedRoute.jsx"
+-- Inicio
+
+import { Navigate } from "react-router-dom";
+import { useAuth } from "../../context/AuthContext";
+
+export const ProtectedRoute = ({ children }) => {
+  const { user, loading } = useAuth();
+
+  if (loading) return <p>Cargando...</p>; // 
+
+  if (!user) return <Navigate to="/admin/login" />;
+
+  return children;
+};
+
+
+-- Fin
+
+-- componente "Dashboard.jsx"
+-- Inicio
+
+import { Link, useNavigate } from "react-router-dom";
+import "./Dashboard.css";
+import { useAuth } from "../../../context/AuthContext";
+
+export const Dashboard = () => {
+  const { logout } = useAuth();
+
+  return (
+    <div className="dashboard">
+      <header className="dashboard-header">
+        <h2>Panel de administración</h2>
+
+        <div className="header-actions">
+          <Link className="btn primary" to="/">
+            Volver a la tienda
+          </Link>
+          <button className="btn bg-delete primary" onClick={logout}>
+            Cerrar sesión
+          </button>
+        </div>
+      </header>
+
+      <section className="dashboard-actions">
+        <h3>Acciones rápidas</h3>
+
+        <div className="actions-grid">
+          <Link to="/admin/products/new" className="action-card">
+            ➕ Cargar
+          </Link>
+
+          <Link to="#" className="action-card disabled">
+            ✏️ Modificar
+          </Link>
+
+          <Link to="#" className="action-card disabled">
+            🗑️ Eliminar
+          </Link>
+        </div>
+      </section>
+
+      <section className="dashboard-help">
+        <h3>Ayuda</h3>
+        <p>Desde este panel podés gestionar los productos de la tienda.</p>
+      </section>
+    </div>
+  );
+};
+
+
+
+-- Fin
+
+Necesitas algun componente mas?

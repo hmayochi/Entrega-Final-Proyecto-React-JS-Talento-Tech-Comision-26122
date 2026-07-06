@@ -1,0 +1,44 @@
+[
+  {
+    "id": 1,
+    "name": "Ferrari 488 GTB",
+    "description": "Deportivo italiano con motor V8 biturbo, diseño aerodinámico y gran rendimiento en pista.",
+    "price": 280000,
+    "image": "/img/ferrari-488.jpg"
+  },
+  {
+    "id": 2,
+    "name": "Lamborghini Huracán",
+    "description": "Auto deportivo Italiano de alto rendimiento con motor V10 y un diseño agresivo característico.",
+    "price": 320000,
+    "image": "/img/lamborghini-huracan.jpg"
+  },
+  {
+    "id": 3,
+    "name": "Porsche 911 Carrera",
+    "description": "Clásico deportivo alemán con excelente equilibrio entre potencia, confort y tecnología.",
+    "price": 150000,
+    "image": "/img/porsche-911.jpg"
+  },
+  {
+    "id": 4,
+    "name": "Audi R8",
+    "description": "Superdeportivo alemán con tracción quattro y motor V10 que combina lujo y velocidad.",
+    "price": 200000,
+    "image": "/img/audi-r8.jpg"
+  },
+  {
+    "id": 5,
+    "name": "McLaren 720S",
+    "description": "Deportivo británico ultraligero con motor V8 biturbo y diseño futurista.",
+    "price": 310000,
+    "image": "/img/mclaren-720s.jpg"
+  },
+  {
+    "id": 6,
+    "name": "Chevrolet Corvette C8",
+    "description": "Icono americano con motor central y gran relación precio-rendimiento.",
+    "price": 90000,
+    "image": "/img/corvette-c8.jpg"
+  }
+]
